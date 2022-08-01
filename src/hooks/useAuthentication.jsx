@@ -1,4 +1,4 @@
-import {db} from '../firebase/config'
+import { db } from '../firebase/config'
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -10,17 +10,17 @@ import {
 import { useState, useEffect } from 'react'
 
 export const useAuthentication = () => {
-  const [ error, setError ] = useState(null)
-  const [ loading, setLoading ] = useState(null)
+  const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(null)
 
   //cleanup
   // deal with memory leak
-  const [ cancelled, setCancelled ] = useState(false)
+  const [cancelled, setCancelled] = useState(false)
 
   const auth = getAuth()
 
-  function checkIfIsCancelled() { 
-    if (cancelled) { 
+  function checkIfIsCancelled() {
+    if (cancelled) {
       return
     }
   }
@@ -33,7 +33,7 @@ export const useAuthentication = () => {
     setError(null)
 
     try {
-      const {user} = await createUserWithEmailAndPassword(
+      const { user } = await createUserWithEmailAndPassword(
         auth,
         data.email,
         data.password
@@ -48,18 +48,18 @@ export const useAuthentication = () => {
       return user
 
     } catch (error) {
-      
+
       console.log(error.message)
       console.log(typeof error.message)
 
       let systemErrorMessage
 
-      if(error.message.includes("Password")) {
+      if (error.message.includes("Password")) {
         systemErrorMessage = "A senha precisa contem pelo menos 6 caracteres."
-      } else if(error.message.includes("email-already")) { 
+      } else if (error.message.includes("email-already")) {
         systemErrorMessage = "E-mail já cadastrado."
       } else {
-        systemErrorMessage = "Ocorreu um erro, por favor tente mais tarde." 
+        systemErrorMessage = "Ocorreu um erro, por favor tente mais tarde."
       }
 
       setLoading(false)
@@ -76,24 +76,24 @@ export const useAuthentication = () => {
   }
 
   // login - sign in
-  const login = async(data) => {
+  const login = async (data) => {
     checkIfIsCancelled()
 
     setLoading(true)
     setError(false)
 
-    try { 
-      
+    try {
+
       await signInWithEmailAndPassword(auth, data.email, data.password)
       setLoading(false)
-    
-    }catch (error) { 
-       
+
+    } catch (error) {
+
       let systemErrorMessage
 
-      if(error.message.includes("user-not-found")) { 
+      if (error.message.includes("user-not-found")) {
         systemErrorMessage = "Usúario não encontrado."
-      } else if (error.message.includes("wrong-password")) { 
+      } else if (error.message.includes("wrong-password")) {
         systemErrorMessage = "Senha incorreta !"
       } else {
         systemErrorMessage = "Ocorreu um erro, por favor tente mais tarde."
@@ -107,9 +107,9 @@ export const useAuthentication = () => {
 
   useEffect(() => {
     return () => setCancelled(true)
-  },[])
+  }, [])
 
-  return { 
+  return {
     auth,
     createUser,
     error,

@@ -11,6 +11,8 @@ import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import CreatePost from './pages/CreatePost/CreatePost';
 import DashBoard from './pages/DashBoard/DashBoard';
+import Search from './pages/Search/Search';
+import Post from './pages/Post/Post';
 
 const HandleRoutes = () => {
   const { user } = useAuthValue(useAuthentication)
@@ -20,6 +22,9 @@ const HandleRoutes = () => {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/about' element={<About />} />
+          <Route path='/search' element={<Search />} />
+          <Route path='/posts/:id' element={<Post />} />
+          
           <Route path='/login' element={!user ? <Login /> : <Navigate to="/" />} />
           <Route path='/register' element={!user ? <Register /> : <Navigate to="/" />} />
           <Route path='/posts/create' element={user ? <CreatePost /> : <Navigate to="/login" />} />

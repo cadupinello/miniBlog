@@ -1,4 +1,4 @@
-import React , { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useAuthentication } from '../../hooks/useAuthentication';
 
 // CSS
@@ -9,7 +9,7 @@ const Login = () => {
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
 
-  const {login, error: authError, loading} = useAuthentication()
+  const { login, error: authError, loading } = useAuthentication()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -19,14 +19,14 @@ const Login = () => {
     const user = {
       email,
       password,
-    } 
+    }
 
     const res = await login(user)
     console.log(res)
   }
 
   useEffect(() => {
-    if(authError) { 
+    if (authError) {
       setError(authError)
     }
   }, [authError])
@@ -34,12 +34,12 @@ const Login = () => {
   return (
     <>
       <div className={styles.login}>
-      <h1>Entrar</h1>
+        <h1>Entrar</h1>
         <p>Faça o login para poder utilizar o sistema</p>
         <form onSubmit={handleSubmit} >
           <label>
             <span>E-mail: </span>
-            <input 
+            <input
               type="email"
               name="email"
               required
@@ -50,15 +50,15 @@ const Login = () => {
           </label>
           <label>
             <span>Senha: </span>
-              <input 
-                type="password"
-                name="password"
-                required
-                placeholder='Insira sua senha'
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-          </label>              
+            <input
+              type="password"
+              name="password"
+              required
+              placeholder='Insira sua senha'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </label>
           {!loading &&
             <button className='btn'>Entrar</button>
           }
@@ -69,7 +69,7 @@ const Login = () => {
             <p className='error'>{error}</p>
           }
         </form>
-      </div>  
+      </div>
     </>
   )
 }
